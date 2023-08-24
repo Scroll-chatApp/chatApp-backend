@@ -11,17 +11,26 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Thanks God its working");
 });
-
+let users = {};
 const server = http.createServer(app);
 
 const io = socketIo(server);
-let a = 1;
 
 io.on("connection", (socket) => {
-  console.log("new connection", a++);
-  socket.on("message", (message) => {
-    console.log(message);
-    io.emit("sendMessage", message);
+  let sender;
+  console.log("new connection", " with id ", socket.id);
+
+  socket.on("userJoined", ({ user }) => {
+    console.log(user, "  has joioned on ", socket.id);
+    users[user] = socket.id;
+    sender = user;
+    console.log(users);
+  });
+
+  socket.on("message", (message, receiverName) => {
+    //console.log(message);
+    socket.to(users[receiverName]).emit("sendMessage", message, sender);
+    socket.emit("sendMessage", message, "You");
   });
 });
 
