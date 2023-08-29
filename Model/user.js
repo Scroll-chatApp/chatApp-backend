@@ -3,10 +3,10 @@ const userSchema = mongoose.Schema(
   {
     user_name: {
       type: String,
-      unique: true,
     },
     user_socket_id: {
       type: String,
+      unique: true,
     },
   },
   {

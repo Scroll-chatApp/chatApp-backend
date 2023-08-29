@@ -8,9 +8,14 @@ const messageSchema = mongoose.Schema(
     message_type: {
       type: String,
     },
-    Conversation_id: {
+    sender_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: "user", // Reference the user model
+      required: true,
+    },
+    conversation_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "conversation", // Reference the conversation model
       required: true,
     },
   },
