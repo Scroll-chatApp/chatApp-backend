@@ -12,7 +12,9 @@ export const newMessage = async (req, res) => {
     const result = await newMessage.save();
     res.status(200).json({ message: "message created successfully" });
   } catch (error) {
-    res.status(500).json(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the message" });
   }
 };
 
@@ -22,6 +24,8 @@ export const getMessage = async (req, res) => {
     const result = await messageModel.find({ conversation_id });
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching messages" });
   }
 };

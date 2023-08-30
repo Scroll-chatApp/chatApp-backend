@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.send("Thanks God its working");
 });
 
-const port = 4500;
+const port = process.env.PORT;
 const server = createServer(app);
 socketio(server);
 

@@ -5,7 +5,7 @@ export const createNewUser = async (user_name, user_socket_id) => {
   try {
     await newUser.save();
   } catch (error) {
-    console.log(error);
+    console.log({ error: "An error occurred while creating the new user" });
   }
 };
 
@@ -28,6 +28,6 @@ export const updateSocketId = async (user_name, new_socket_id) => {
       await user.save();
     }
   } catch (error) {
-    console.log(error);
+    console.log({ error: "An error occurred while updating the socket id" });
   }
 };

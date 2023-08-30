@@ -8,6 +8,9 @@ const router = express.Router();
 
 router.post("/newconversation", newConversation);
 router.get("/getconversationsbyuserid", getConversationsByUserId);
-router.get("/getallconversationofuser", getAllConversationOfUser);
+router.get(
+  "/getallconversationofuser/:sender_id/:receiver_id",
+  getAllConversationOfUser
+);
 
 export default router;
