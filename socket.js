@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import { updateSocketId } from "./Controller/user.js";
+import { newMessage } from "./Controller/message.js";
 
 export default function socketModule(server) {
   const io = new Server(server, {
@@ -14,9 +15,17 @@ export default function socketModule(server) {
       socket.emit("scoketid", socket.id);
     });
 
-    socket.on("message", (message, receiverName) => {
-      socket.to(users[receiverName]).emit("sendMessage", message);
-      socket.emit("sendMessage", message);
-    });
+    socket.on(
+      "sendMessage",
+      ({ messageToSend, type, senderId, conversationId }) => {
+        console.log(messageToSend);
+        const result = newMessage(
+          messageToSend,
+          type,
+          senderId,
+          conversationId
+        );
+      }
+    );
   });
 }
