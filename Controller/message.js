@@ -13,7 +13,7 @@ export const newMessage = async (
     conversation_id,
   });
   try {
-    const result = await newMessage.save();
+    await newMessage.save();
   } catch (error) {
     console.log({ error: "An error occurred while creating the message" });
   }
