@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { updateSocketId } from "./Controller/user.js";
 import { newMessage } from "./Controller/message.js";
 
-let user = {}
+let users = {};
 export default function socketModule(server) {
   const io = new Server(server, {
     cors: {
@@ -12,19 +12,20 @@ export default function socketModule(server) {
 
   io.on("connection", (socket) => {
     socket.on("userJoined", ({ user }) => {
+      users[user] = socket.id;
       updateSocketId(user, socket.id); //update user socket id
     });
 
     socket.on(
       "sendMessage",
-      ({ messageToSend, type, senderId, conversationId, receiverSocketId }) => {
+      ({ messageToSend, type, senderId, conversationId, receiverName }) => {
         const result = newMessage(
           messageToSend,
           type,
           senderId,
           conversationId
         );
-        socket.to(receiverSocketId).emit("receiverMessage");
+        socket.to(users[receiverName]).emit("receiverMessage");
         
       }
     );

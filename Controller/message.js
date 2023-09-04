@@ -1,23 +1,23 @@
 import messageModel from "../Model/message.js";
 
-export const newMessage = async (
-  message_data,
-  message_type,
-  sender_id,
-  conversation_id
-) => {
-  const newMessage = new messageModel({
+  export const newMessage = async (
     message_data,
     message_type,
     sender_id,
-    conversation_id,
-  });
-  try {
-    await newMessage.save();
-  } catch (error) {
-    console.log({ error: "An error occurred while creating the message" });
-  }
-};
+    conversation_id
+  ) => {
+    const newMessage = new messageModel({
+      message_data,
+      message_type,
+      sender_id,
+      conversation_id,
+    });
+    try {
+      await newMessage.save();
+    } catch (error) {
+      console.log({ error: "An error occurred while creating the message" });
+    }
+  };
 
 export const getMessage = async (req, res) => {
   const { conversation_id } = req.params;
