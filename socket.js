@@ -1,13 +1,14 @@
 import { Server } from "socket.io";
 import { updateSocketId } from "./Controller/user.js";
 import { newMessage } from "./Controller/message.js";
-
+import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 
+dotenv.config();
 cloudinary.config({
-  cloud_name: "dubwggg4a",
-  api_key: "431517811498724",
-  api_secret: "eoejYyKRwg1jg6EBHzh2evyjkEE",
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
 });
 
 let users = {};
