@@ -35,7 +35,7 @@ export default function socketModule(server) {
       }) => {
         try {
           newMessage(messageToSend, type, senderId, conversationId);
-          // Emit the message to the receiver and sender
+          // Emit the message to receiver and sender
           socket.to(users[receiverName]).emit("receiverMessage");
           socket.emit("senderMessage");
         } catch (error) {
@@ -47,28 +47,43 @@ export default function socketModule(server) {
     socket.on(
       "sendFile",
       async ({ fileToSend, type, senderId, conversationId, receiverName }) => {
-        try {
-          const uploadResult = await uploadFile(fileToSend);
-          const fileUrl = uploadResult.secure_url;
+        if (type === "pic") {
+          try {
+            const uploadResult = await uploadFile(fileToSend);
+            const fileUrl = uploadResult.secure_url;
 
-          newMessage(fileUrl, "file", senderId, conversationId);
-          // Emit the message with the updated messageToSend (file URL)
-          socket.to(users[receiverName]).emit("receiverMessage");
-          socket.emit("senderMessage");
-        } catch (error) {
-          console.error("Error handling file upload:", error);
+            newMessage(fileUrl, "pic", senderId, conversationId);
+            // Emit the message to receiver and sender
+            socket.to(users[receiverName]).emit("receiverMessage");
+            socket.emit("senderMessage");
+          } catch (error) {
+            console.error("Error handling file upload:", error);
+          }
+        } else {
+          try {
+            const uploadResult = await uploadFile(fileToSend, "pdf");
+            const fileUrl = uploadResult.secure_url;
+
+            newMessage(fileUrl, "pdf", senderId, conversationId);
+            // Emit the message to receiver and sender
+            socket.to(users[receiverName]).emit("receiverMessage");
+            socket.emit("senderMessage");
+          } catch (error) {
+            console.error("Error handling file upload:", error);
+          }
         }
       }
     );
   });
 }
-async function uploadFile(bufferToUpload) {
+async function uploadFile(bufferToUpload, fileType) {
   return new Promise((resolve, reject) => {
+    const uploadOptions = {
+      resource_type: fileType === "pdf" ? "raw" : "auto", //'raw' for PDF files 'auto' for images
+    };
     // Create a read stream from the Buffer
     const readStream = cloudinary.uploader.upload_stream(
-      {
-        resource_type: "auto", // Let Cloudinary auto-detect the file type
-      },
+      uploadOptions,
       (error, result) => {
         if (error) {
           reject(error);
