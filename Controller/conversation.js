@@ -1,7 +1,7 @@
 import conversationModel from "../Model/conversation.js";
 
 export const newConversation = async (req, res) => {
-  const { sender_id, receiver_id } = req.body;
+  const { sender_id, receiver_id } = req.params;
   const newConversation = new conversationModel({
     members: [sender_id, receiver_id],
   });
