@@ -1,15 +1,13 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import userRouter from "./Routes/user.js";
 import conversationRouter from "./Routes/conversation.js";
 import messageRouter from "./Routes/message.js";
 import { createServer } from "http";
 import socketio from "./socket.js";
+import { MONGO_DB, PORT } from "./constant/constant.js";
 
-// dot evn package
-dotenv.config();
 
 const app = express();
 
@@ -23,13 +21,13 @@ app.get("/", (req, res) => {
   res.send("Thanks God its working");
 });
 
-const port = process.env.PORT;
+const port =  PORT;
 const server = createServer(app);
 socketio(server);
 
 // database connection
 mongoose
-  .connect(process.env.MONGO_DB, {
+  .connect(MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
