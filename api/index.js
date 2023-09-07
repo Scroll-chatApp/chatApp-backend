@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import userRouter from "./Routes/user.js";
-import conversationRouter from "./Routes/conversation.js";
-import messageRouter from "./Routes/message.js";
+import userRouter from "../Routes/user.js";
+import conversationRouter from "../Routes/conversation.js";
+import messageRouter from "../Routes/message.js";
 import { createServer } from "http";
-import socketio from "./socket.js";
-import { MONGO_DB, PORT } from "./constant/constant.js";
+import socketio from "../socket.js";
+import { MONGO_DB, PORT } from "../constant/constant.js";
 
 const app = express();
 
