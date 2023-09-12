@@ -2,8 +2,6 @@ import { Server } from "socket.io";
 import { updateSocketId } from "./Controller/user.js";
 import { newMessage } from "./Controller/message.js";
 import { v2 as cloudinary } from "cloudinary";
-import fs from 'fs';
-import path from 'path';
 import { api_key, api_secret, cloud_name } from "./constant/constant.js";
 
 cloudinary.config({
@@ -97,7 +95,7 @@ async function uploadFile(bufferToUpload, fileType) {
   return new Promise((resolve, reject) => {
     const uploadOptions = {
       resource_type: fileType === "pdf" ? "raw" : "auto",
-      public_id: "publicId", // Set a meaningful public ID for your PDF
+      public_id: fileType === "pdf" ? "chatApp.pdf" : "chatApp", // Set a meaningful public ID for your PDF
     };
 
     // Create a read stream from the Buffer
@@ -107,14 +105,13 @@ async function uploadFile(bufferToUpload, fileType) {
         if (error) {
           reject(error);
         } else {
-          // console.log(result);
           resolve(result); // Resolve with the URL of the uploaded PDF
         }
       }
     );
 
     // Pipe the Buffer to the Cloudinary upload stream
-    readStream.write(bufferToUpload);
-    readStream.end();
+    readStream.end(bufferToUpload);
+
   });
 }
