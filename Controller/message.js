@@ -13,7 +13,8 @@ import messageModel from "../Model/message.js";
       conversation_id,
     });
     try {
-      await newMessage.save();
+      const result = await newMessage.save();
+      return result;
     } catch (error) {
       console.log({ error: "An error occurred while creating the message" });
     }
