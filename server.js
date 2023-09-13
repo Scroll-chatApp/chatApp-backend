@@ -8,7 +8,6 @@ import { createServer } from "http";
 import socketio from "./socket.js";
 import { MONGO_DB, PORT } from "./constant/constant.js";
 
-
 const app = express();
 
 app.use(express.json());

@@ -7,11 +7,13 @@ export const newConversation = async (req, res) => {
   });
   try {
     const result = await newConversation.save();
-    res.status(200).json({ message: "Conversation created successfully" });
+    // Access the ID of the newly created conversation from the result
+    const conversationId = result._id;
+    res.status(200).json({ message: "Conversation created successfully", conversationId });
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while creating new the conversation" });
+      .json({ error: "An error occurred while creating the new conversation" });
   }
 };
 
